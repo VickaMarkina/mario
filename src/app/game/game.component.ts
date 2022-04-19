@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from './classes/platform.class';
 import { Player } from './classes/player.class';
 
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -25,6 +26,8 @@ export class GameComponent implements OnInit {
     }
   }
   scrollOfset: number = 0;
+  image = new Image();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -37,8 +40,11 @@ export class GameComponent implements OnInit {
     this.canvas = canvas;
     this.context = context;
 
+    this.image.src = '/assets/img/platform.png';
+    console.log(this.image)
+
     this.player  = new Player(this.canvas, this.context, this.gravity);
-    this.platforms = [new Platform(this.context, 200, 100), new Platform(this.context, 500, 200)]
+    this.platforms = [new Platform(this.context, -1, 530, this.image), new Platform(this.context, this.image.width - 2, 530, this.image)]
 
     this.animate();
     this.playerMovement();
@@ -46,12 +52,14 @@ export class GameComponent implements OnInit {
   
   animate() {
     requestAnimationFrame(() => this.animate())
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.player.update();
-
+    this.context.fillStyle = 'rgb(172, 189, 222)';
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    
     this.platforms.forEach((platform) => {
       platform.draw();
     })
+
+    this.player.update();
 
     if(this.keys.right.pressed && this.player.position.x < 400){
       this.player.velocity.x = 5
@@ -84,8 +92,8 @@ export class GameComponent implements OnInit {
     })
 
     // win scenario
-    if(this.scrollOfset > 3000) {
-
+    if(this.scrollOfset > 1000) {
+      console.log('you win')
     }
   }
 
