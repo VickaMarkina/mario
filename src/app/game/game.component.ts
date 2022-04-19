@@ -24,6 +24,7 @@ export class GameComponent implements OnInit {
       pressed: false
     }
   }
+  scrollOfset: number = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -60,10 +61,12 @@ export class GameComponent implements OnInit {
       this.player.velocity.x = 0
 
       if( this.keys.right.pressed){
+        this.scrollOfset += 5
         this.platforms.forEach((platform) => {
           platform.position.x -= 5
         })
       } else if(this.keys.left.pressed){
+        this.scrollOfset -= 5
         this.platforms.forEach((platform) => {
           platform.position.x += 5
         })
@@ -79,6 +82,11 @@ export class GameComponent implements OnInit {
         this.player.velocity.y = 0
       }
     })
+
+    // win scenario
+    if(this.scrollOfset > 3000) {
+
+    }
   }
 
   playerMovement() {
