@@ -4,10 +4,10 @@ export class Platform {
   width!: number;
   height!: number;
 
-  constructor(context: CanvasRenderingContext2D){
+  constructor(context: CanvasRenderingContext2D, x: number, y: number){
     this.position = {
-      x: 200,
-      y: 100
+      x,
+      y
     }
     this.width = 200
     this.height = 20

@@ -13,7 +13,7 @@ export class GameComponent implements OnInit {
   context!: CanvasRenderingContext2D;
 
   player!: Player;
-  platform!: Platform;
+  platforms!: Platform[];
 
   gravity: number = 1.5;
   keys: {right: {pressed: Boolean}, left: {pressed: Boolean}} = {
@@ -37,31 +37,48 @@ export class GameComponent implements OnInit {
     this.context = context;
 
     this.player  = new Player(this.canvas, this.context, this.gravity);
-    this.platform = new Platform(this.context)
+    this.platforms = [new Platform(this.context, 200, 100), new Platform(this.context, 500, 200)]
 
     this.animate();
-    this.playerMovement()
+    this.playerMovement();
   }
   
   animate() {
     requestAnimationFrame(() => this.animate())
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.player.update();
-    this.platform.draw();
 
-    if(this.keys.right.pressed){
+    this.platforms.forEach((platform) => {
+      platform.draw();
+    })
+
+    if(this.keys.right.pressed && this.player.position.x < 400){
       this.player.velocity.x = 5
-    } else if(this.keys.left.pressed) {
+    } else if(this.keys.left.pressed && this.player.position.x > 100) {
       this.player.velocity.x = -5
-    } else this.player.velocity.x = 0
+    } else {
+      this.player.velocity.x = 0
+
+      if( this.keys.right.pressed){
+        this.platforms.forEach((platform) => {
+          platform.position.x -= 5
+        })
+      } else if(this.keys.left.pressed){
+        this.platforms.forEach((platform) => {
+          platform.position.x += 5
+        })
+      }
+    }
 
     //platforform collision detection
-    if(this.player.position.y + this.player.height <= this.platform.position.y &&
-       this.player.position.y + this.player.height + this.player.velocity.y >= this.platform.position.y &&
-       this.player.position.x + this.player.width >= this.platform.position.x &&
-       this.player.position.x <= this.platform.position.x + this.platform.width){
-      this.player.velocity.y = 0
-    }
+    this.platforms.forEach((platform) => {
+      if(this.player.position.y + this.player.height <= platform.position.y &&
+         this.player.position.y + this.player.height + this.player.velocity.y >= platform.position.y &&
+         this.player.position.x + this.player.width >= platform.position.x &&
+         this.player.position.x <= platform.position.x + platform.width){
+        this.player.velocity.y = 0
+      }
+    })
   }
 
   playerMovement() {
