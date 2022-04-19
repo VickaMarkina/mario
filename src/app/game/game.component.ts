@@ -13,6 +13,7 @@ export class GameComponent implements OnInit {
 
   player!: Player;
 
+  gravity: number = 1.5;
   constructor() { }
 
   ngOnInit(): void {
@@ -25,8 +26,14 @@ export class GameComponent implements OnInit {
     this.canvas = canvas;
     this.context = context;
 
-    this.player  = new Player(this.context);
-    this.player.draw();
+    this.player  = new Player(this.canvas, this.context, this.gravity);
+    this.animate();
+  }
+  
+  animate() {
+    requestAnimationFrame(() => this.animate())
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.player.update();
   }
 
 }
