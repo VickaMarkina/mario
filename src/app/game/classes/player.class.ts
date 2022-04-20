@@ -6,6 +6,7 @@ export class Player {
   height!: number;
   gravity!: number;
   canvas!: HTMLCanvasElement;
+  speed: number = 10
 
   constructor( canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, gravity: number) {
     this.position = {
@@ -35,8 +36,6 @@ export class Player {
 
     if(this.position.y + this.height + this.velocity.y <= this.canvas.height){
       this.velocity.y += this.gravity
-    } else {
-      this.velocity.y = 0
     }
   }
 }
