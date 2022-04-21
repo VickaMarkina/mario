@@ -307,6 +307,7 @@ export class GameComponent implements OnInit {
          enemy.position.y + 5 >= this.player.position.y + this.player.height &&
          enemy.position.y - 5 <= this.player.position.y + this.player.height 
         ){
+        this.player.velocity.y -= 45
         this.enemies.splice(index, 1)
         for(let i = 0; i < 10; i++){
           this.particles.push(new Particle(
