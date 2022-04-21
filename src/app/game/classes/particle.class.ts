@@ -8,11 +8,11 @@ export class Particle {
   alpha: number = 1;
   friction: number = 0.98
 
-  constructor(x: number, y: number, radius: number, context: CanvasRenderingContext2D, velocity:{x:number, y:number}) {
+  constructor(x: number, y: number, radius: number, context: CanvasRenderingContext2D, velocity:{x:number, y:number}, color: string) {
     this.x = x
     this.y = y
     this.radius = radius
-    this.color = 'rgb(118,49,0)'
+    this.color = color
     this.context = context
     this.velocity = velocity
   }

@@ -1,4 +1,4 @@
-export class Enemy {
+export class Flower {
   context!: CanvasRenderingContext2D;
   position!: {x: number, y: number};
   velocity!: number;
@@ -21,20 +21,19 @@ export class Enemy {
       x,
       y
     }
-    this.velocity =  -1
 
-    this.height = 150
-    this.width = 50
+    this.height = 400
+    this.width = 55
     this.frames = 0
   } 
 
   draw() {
     this.context.drawImage(
       this.img,
-      130 * this.frames,
+      56 * this.frames,
       0,
-      130,
-      400,
+      56,
+      300,
       this.position.x, 
       this.position.y, 
       this.width, 
@@ -46,13 +45,6 @@ export class Enemy {
     if(this.frames > 59) {
       this.frames = 0
     } 
-
     this.draw()
-    this.position.x += this.velocity
-    if(this.position.x < this.startPos - 80){
-      this.velocity = 1
-    } else if (this.position.x > this.startPos + 80){
-      this.velocity = -1
-    }
   }
 }
